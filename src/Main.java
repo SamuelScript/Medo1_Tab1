@@ -17,6 +17,7 @@ public class Main {
         MainFrame main = new MainFrame();
         main.setVisible(true);
         RungeKutta3Double runge = new RungeKutta3Double(0.0, 0.01, 1.0, 10.0, 0.0, 10.0);
-        runge.run();
+        //runge.run();
+
     }
 }
