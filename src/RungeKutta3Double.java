@@ -8,29 +8,18 @@ public class RungeKutta3Double {
     private double t;
     private double dt;
     private double tmax;
+    private boolean finished = false;
 
     private double Ca(double t, double Ca, double Cb, double Cc) {
-        return -this.alpha * Ca * Cc + Cb;
+        return -alpha * Ca * Cc + Cb;
     }
 
     private double Cb(double t, double Ca, double Cb, double Cc) {
-        return this.beta * Ca * Cc - Cb;
+        return beta * Ca * Cc - Cb;
     }
 
     private double Cc(double t, double Ca, double Cb, double Cc) {
-        return -this.gama * Ca * Cc + Cb - 2.0 * Cc;
-    }
-
-    public RungeKutta3Double(double t, double dt, double tmax, double Ca, double Cb, double Cc) {
-        this.t = t;
-        this.dt = dt;
-        this.tmax = tmax;
-        this.Ca = Ca;
-        this.Cb = Cb;
-        this.Cc = Cc;
-        this.alpha = 10.0;
-        this.beta = 10.0;
-        this.gama = 10.0;
+        return -gama * Ca * Cc + Cb - 2.0 * Cc;
     }
 
     public RungeKutta3Double(double t, double dt, double tmax, double Ca, double Cb, double Cc, double alpha, double beta, double gama) {
@@ -46,34 +35,44 @@ public class RungeKutta3Double {
     }
 
     private void step() {
-        double k1_Ca = this.Ca(this.t, this.Ca, this.Cb, this.Cc);
-        double k1_Cb = this.Cb(this.t, this.Ca, this.Cb, this.Cc);
-        double k1_Cc = this.Cc(this.t, this.Ca, this.Cb, this.Cc);
-        double k2_Ca = this.Ca(this.t + this.dt / 2.0, this.Ca + k1_Ca * (this.dt / 2.0), this.Cb + k1_Cb * (this.dt / 2.0), this.Cc + k1_Cc * (this.dt / 2.0));
-        double k2_Cb = this.Cb(this.t + this.dt / 2.0, this.Ca + k1_Ca * (this.dt / 2.0), this.Cb + k1_Cb * (this.dt / 2.0), this.Cc + k1_Cc * (this.dt / 2.0));
-        double k2_Cc = this.Cc(this.t + this.dt / 2.0, this.Ca + k1_Ca * (this.dt / 2.0), this.Cb + k1_Cb * (this.dt / 2.0), this.Cc + k1_Cc * (this.dt / 2.0));
-        double k3_Ca = this.Ca(this.t + this.dt, this.Ca - k1_Ca * this.dt + 2.0 * k2_Ca * this.dt, this.Cb - k1_Cb * this.dt + 2.0 * k2_Cb * this.dt, this.Cc - k2_Cc * this.dt + 2.0 * k2_Cc * this.dt);
-        double k3_Cb = this.Cb(this.t + this.dt, this.Ca - k1_Ca * this.dt + 2.0 * k2_Ca * this.dt, this.Cb - k1_Cb * this.dt + 2.0 * k2_Cb * this.dt, this.Cc - k2_Cc * this.dt + 2.0 * k2_Cc * this.dt);
-        double k3_Cc = this.Cc(this.t + this.dt, this.Ca - k1_Ca * this.dt + 2.0 * k2_Ca * this.dt, this.Cb - k1_Cb * this.dt + 2.0 * k2_Cb * this.dt, this.Cc - k2_Cc * this.dt + 2.0 * k2_Cc * this.dt);
-        this.Ca += this.dt / 6.0 * (k1_Ca + 4.0 * k2_Ca + k3_Ca);
-        this.Cb += this.dt / 6.0 * (k1_Cb + 4.0 * k2_Cb + k3_Cb);
-        this.Cc += this.dt / 6.0 * (k1_Cc + 4.0 * k2_Cc + k3_Cc);
-        this.t += this.dt;
+        double k1_Ca = Ca(t, Ca, Cb, Cc);
+        double k1_Cb = Cb(t, Ca, Cb, Cc);
+        double k1_Cc = Cc(t, Ca, Cb, Cc);
+
+        double hdt = dt/2;
+        double k2_Ca = Ca(t + hdt, Ca + k1_Ca * hdt, Cb + k1_Cb * hdt, Cc + k1_Cc * hdt);
+        double k2_Cb = Cb(t + hdt, Ca + k1_Ca * hdt, Cb + k1_Cb * hdt, Cc + k1_Cc * hdt);
+        double k2_Cc = Cc(t + hdt, Ca + k1_Ca * hdt, Cb + k1_Cb * hdt, Cc + k1_Cc * hdt);
+
+        double dt2 = dt*2;
+        double k3_Ca = Ca(t + dt, Ca - k1_Ca * dt + k2_Ca * dt2, Cb - k1_Cb * dt + k2_Cb * dt2, Cc - k2_Cc * dt + k2_Cc * dt2);
+        double k3_Cb = Cb(t + dt, Ca - k1_Ca * dt + k2_Ca * dt2, Cb - k1_Cb * dt + k2_Cb * dt2, Cc - k2_Cc * dt + k2_Cc * dt2);
+        double k3_Cc = Cc(t + dt, Ca - k1_Ca * dt + k2_Ca * dt2, Cb - k1_Cb * dt + k2_Cb * dt2, Cc - k2_Cc * dt + k2_Cc * dt2);
+
+        Ca += dt / 6.0 * (k1_Ca + 4.0 * k2_Ca + k3_Ca);
+        Cb += dt / 6.0 * (k1_Cb + 4.0 * k2_Cb + k3_Cb);
+        Cc += dt / 6.0 * (k1_Cc + 4.0 * k2_Cc + k3_Cc);
+        t += dt;
     }
 
-    public void run() {
+    public void run(GChart g) {
+        if(finished) return;
+        g.setLabel(0, "Ca");
+        g.setLabel(1, "Cb");
+        g.setLabel(2, "Cc");
         while(true) {
-            if (this.t <= this.tmax) {
-                System.out.printf("Passo t = %.4f: Ca = %.6f, Cb = %.6f, Cc = %.6f\n", this.t, this.Ca, this.Cb, this.Cc);
-                this.step();
-                if (!(this.Ca < 0.0) && !(this.Cb < 0.0) && !(this.Cc < 0.0)) {
-                    continue;
-                }
+            if (t <= tmax) {
+                System.out.printf("Passo t = %.4f: Ca = %.6f, Cb = %.6f, Cc = %.6f\n", t, Ca, Cb, Cc);
+                step();
+                g.addData(0, t, Ca);
+                g.addData(1, t, Cb);
+                g.addData(2, t, Cc);
+                if (!(Ca < 0.0) && !(Cb < 0.0) && !(Cc < 0.0)) continue;
 
-                System.out.printf("O sistema desestabilizou para o t = %.6f\n", this.t);
-                System.out.printf("Passo t = %.4f: Ca = %.6f, Cb = %.6f, Cc = %.6f\n", this.t, this.Ca, this.Cb, this.Cc);
+                System.out.printf("O sistema desestabilizou para o t = %.6f\n", t);
+                System.out.printf("Passo t = %.4f: Ca = %.6f, Cb = %.6f, Cc = %.6f\n", t, Ca, Cb, Cc);
             }
-
+            finished = true;
             return;
         }
     }

@@ -1,8 +1,4 @@
 import javax.swing.UIManager;
-import org.jfree.chart.ChartFactory;
-
-import java.awt.*;
-import java.util.Arrays;
 
 public class Main {
     public Main() {
@@ -16,9 +12,9 @@ public class Main {
         }
         MainFrame main = new MainFrame();
         main.setVisible(true);
-        RungeKutta3Double runge = new RungeKutta3Double(0.0, 0.01, 1.0, 10.0, 0.0, 10.0);
-        //runge.run();
 
+        Trabalho.t1part1(main.getGChart(0));
+        Trabalho.t1part2(main.getGChart(1));
     }
 }
 

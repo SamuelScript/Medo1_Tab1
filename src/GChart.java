@@ -6,6 +6,7 @@ import org.jfree.chart.plot.XYPlot;
 import org.jfree.data.xy.XYSeries;
 import org.jfree.data.xy.XYSeriesCollection;
 
+import java.awt.*;
 import java.awt.event.MouseEvent;
 import java.lang.reflect.Field;
 
@@ -14,8 +15,16 @@ public class GChart extends ChartPanel {
     private XYSeries series[];
     private JFreeChart chart;
 
+    public void setLabel(int serie, String label) {
+        series[serie].setKey(label);
+    }
+
     public void setData(int serie, double[] x, double[] y) {
         for(int i=0; i<x.length; i++) series[serie].add(x[i], y[i]);
+    }
+
+    public void addData(int serie, double x, double y) {
+        series[serie].add(x, y);
     }
 
     @Override
@@ -37,7 +46,7 @@ public class GChart extends ChartPanel {
     public GChart(String title, int series) {
         super(null);
         dataset = new XYSeriesCollection();
-        chart = ChartFactory.createXYLineChart(title, "", "", dataset, PlotOrientation.VERTICAL, false, true, false);
+        chart = ChartFactory.createXYLineChart(title, "", "", dataset, PlotOrientation.VERTICAL, true, true, false);
         setChart(chart);
         this.series = new XYSeries[series];
         for(int i=0; i<series; i++) {
@@ -46,6 +55,7 @@ public class GChart extends ChartPanel {
         }
 
         XYPlot plot = (XYPlot) chart.getPlot();
+        plot.setBackgroundPaint(Color.WHITE);
         plot.setRangeZeroBaselineVisible(true);
         plot.setDomainZeroBaselineVisible(true);
         plot.setRangePannable(true);

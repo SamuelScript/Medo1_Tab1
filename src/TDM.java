@@ -1,7 +1,3 @@
-import java.util.Arrays;
-import java.util.LinkedList;
-import java.util.List;
-
 public class TDM {
 	private double[][] matrix; //Linha x Coluna
 	private double[] vector;
@@ -87,7 +83,7 @@ public class TDM {
         }
 
         if(lindependent) System.out.println("Matriz linearmente dependente");
-        if(impossible) System.out.println("Matriz cont�m vari�vel imposs�vel");
+        if(impossible) System.out.println("Matriz contém variável impossível");
     }
 
 	public TDM(double[][] matrix, double[] vector) {

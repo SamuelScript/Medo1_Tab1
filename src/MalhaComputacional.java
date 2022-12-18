@@ -14,6 +14,7 @@ public class MalhaComputacional {
         this.Td = Td;
         this.D = D;
     }
+
     public double[][] gerar_matriz_A(int n) {
         double[][] A = new double[n][n];
         for(int i = 0; i < n; i++) {
@@ -25,6 +26,7 @@ public class MalhaComputacional {
         }
         return A;
     }
+
     public double[] gerar_vetor_b(int n) {
         double[] b = new double[n];
         for(int i = 1; i < n-1; i++) b[i] = 0;
