@@ -22,6 +22,8 @@ class Trabalho {
     public static void t1part1(GChart g) {
         RungeKutta3Double runge = new RungeKutta3Double(0.0, 0.01, 1.0, 10.0, 0.0, 10.0, 10.0, 10.0, 10.0);
         runge.run(g);
+        RungeKutta3BigDecimal rungebd = new RungeKutta3BigDecimal("0.0", "0.01", "1.0", "10.0", "0.0", "10.0", "10.0", "10.0", "10.0",20);
+        rungebd.run(g);
     }
     public static void t1part2(GChart g) {
         int nodes = 7;

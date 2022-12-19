@@ -19,11 +19,11 @@ public class GChart extends ChartPanel {
         series[serie].setKey(label);
     }
 
-    public void setData(int serie, double[] x, double[] y) {
+    public void setData(int serie, Number[] x, Number[] y) {
         for(int i=0; i<x.length; i++) series[serie].add(x[i], y[i]);
     }
 
-    public void addData(int serie, double x, double y) {
+    public void addData(int serie, Number x, Number y) {
         series[serie].add(x, y);
     }
 

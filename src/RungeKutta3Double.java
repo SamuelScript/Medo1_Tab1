@@ -57,22 +57,21 @@ public class RungeKutta3Double {
 
     public void run(GChart g) {
         if(finished) return;
-        g.setLabel(0, "Ca");
-        g.setLabel(1, "Cb");
-        g.setLabel(2, "Cc");
+        g.setLabel(0, "Ca (Double)");
+        g.setLabel(1, "Cb (Double)");
+        g.setLabel(2, "Cc (Double)");
         while(true) {
+            g.addData(0, t, Ca);
+            g.addData(1, t, Cb);
+            g.addData(2, t, Cc);
             if (t <= tmax) {
-                System.out.printf("Passo t = %.4f: Ca = %.6f, Cb = %.6f, Cc = %.6f\n", t, Ca, Cb, Cc);
                 step();
-                g.addData(0, t, Ca);
-                g.addData(1, t, Cb);
-                g.addData(2, t, Cc);
                 if (!(Ca < 0.0) && !(Cb < 0.0) && !(Cc < 0.0)) continue;
 
                 System.out.printf("O sistema desestabilizou para o t = %.6f\n", t);
-                System.out.printf("Passo t = %.4f: Ca = %.6f, Cb = %.6f, Cc = %.6f\n", t, Ca, Cb, Cc);
             }
             finished = true;
+            System.out.printf("(Double) Passo t = %.4f: Ca = %.6f, Cb = %.6f, Cc = %.6f\n", t, Ca, Cb, Cc);
             return;
         }
     }
