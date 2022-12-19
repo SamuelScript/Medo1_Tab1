@@ -7,17 +7,17 @@ public class RungeKutta3BigDecimal {
     private final BigDecimal alpha;
     private final BigDecimal beta;
     private final BigDecimal gama;
+    private final BigDecimal dt;
+    private final BigDecimal dt2;
+    private final BigDecimal hdt;
+    private final BigDecimal dtsix;
+    private final BigDecimal tmax;
+    private final BigDecimal two = new BigDecimal("2");
+    private final BigDecimal four = new BigDecimal("4");
     private BigDecimal Ca;
     private BigDecimal Cb;
     private BigDecimal Cc;
     private BigDecimal t;
-    private BigDecimal dt;
-    private BigDecimal dt2;
-    private BigDecimal hdt;
-    private BigDecimal dtsix;
-    private BigDecimal tmax;
-    private BigDecimal two = new BigDecimal("2");
-    private BigDecimal four = new BigDecimal("4");
     private boolean finished = false;
 
     private BigDecimal Ca(BigDecimal t, BigDecimal Ca, BigDecimal Cb, BigDecimal Cc) {
@@ -34,7 +34,7 @@ public class RungeKutta3BigDecimal {
 
     /*
     * Aviso sobre esta classe: Big Decimal é baseado em ponto fixo e por isso é muito lento.
-    * Eu (Gabriel) e Samuel aplicamos algumas otimizações não convencionais para tentar minimizar o impacto no CPU.
+    * Eu (Gabriel) e Samuel aplicamos algumas otimizações "não convencionais" para tentar minimizar o impacto no CPU.
     * Por isso pode parecer que muito do código e variáveis são redundantes.
     * */
     public RungeKutta3BigDecimal(String t, String dt, String tmax, String Ca, String Cb, String Cc, String alpha, String beta, String gama, int precision) {
@@ -53,7 +53,7 @@ public class RungeKutta3BigDecimal {
         dtsix = this.dt.divide(new BigDecimal("6"), mc);
     }
 
-    private void step() {
+    private void step() { //1e-16#DEN
         BigDecimal k1_Ca = Ca(t, Ca, Cb, Cc);
         BigDecimal k1_Cb = Cb(t, Ca, Cb, Cc);
         BigDecimal k1_Cc = Cc(t, Ca, Cb, Cc);
@@ -84,7 +84,7 @@ public class RungeKutta3BigDecimal {
         Ca = Ca.add(dtsix.multiply(k1_Ca.add((k2_Ca.multiply(four, mc)).add(k3_Ca, mc), mc), mc), mc);
         Cb = Cb.add(dtsix.multiply(k1_Cb.add((k2_Cb.multiply(four, mc)).add(k3_Cb, mc), mc), mc), mc);
         Cc = Cc.add(dtsix.multiply(k1_Cc.add((k2_Cc.multiply(four, mc)).add(k3_Cc, mc), mc), mc), mc);
-        t = t.add(dt, mc);
+        t = mod_k3[0];
     }
 
     public void run(GChart g) {
