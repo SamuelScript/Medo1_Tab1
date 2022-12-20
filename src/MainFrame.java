@@ -25,7 +25,7 @@ public class MainFrame extends JFrame {
 
         charts = new GChart[2];
         charts[0] = new GChart("Concentração dos 3 reagentes", 6);
-        charts[1] = new GChart("Distribuição de um reagente", 1);
+        charts[1] = new GChart("Distribuição de um reagente", 5);
 
         GridBagConstraints gbc_1 = new GridBagConstraints();
         gbc_1.fill = GridBagConstraints.BOTH;
