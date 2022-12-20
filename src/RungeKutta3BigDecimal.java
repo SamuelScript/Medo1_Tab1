@@ -53,7 +53,7 @@ public class RungeKutta3BigDecimal {
         dtsix = this.dt.divide(new BigDecimal("6"), mc);
     }
 
-    private void step() { //1e-16#DEN
+    private void step() {
         BigDecimal k1_Ca = Ca(t, Ca, Cb, Cc);
         BigDecimal k1_Cb = Cb(t, Ca, Cb, Cc);
         BigDecimal k1_Cc = Cc(t, Ca, Cb, Cc);
