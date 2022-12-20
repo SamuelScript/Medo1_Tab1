@@ -20,14 +20,19 @@ public class Main {
 
 class Trabalho {
     public static void t1part1(GChart g) {
-        RungeKutta3Double runge = new RungeKutta3Double(0.0, 0.01, 1.0, 10.0, 0.0, 10.0, 10.0, 10.0, 10.0);
+
+        RungeKutta3Double runge = new RungeKutta3Double(0.0, 0.001, 5.0, 29.0, 0.0, 43.0, 9.0, 11.0, 9.5);
         runge.run(g);
-        RungeKutta3BigDecimal rungebd = new RungeKutta3BigDecimal("0.0", "0.01", "1.0", "10.0", "0.0", "10.0", "10.0", "10.0", "10.0",20);
+        RungeKutta3BigDecimal rungebd = new RungeKutta3BigDecimal("0.0", "0.001", "5.0", "29.0", "0.0", "43.0", "9.0", "11.0", "9.5",20);
         rungebd.run(g);
+        /*RungeKutta3Double runge = new RungeKutta3Double(0.0, 0.1, 0.1, 0.5, 0.0, 0.5, 0.1, 0.1, 0.1);
+        runge.run(g);
+        RungeKutta3BigDecimal rungebd = new RungeKutta3BigDecimal("0.0", "0.1", "0.1", "0.5", "0.0", "0.5", "0.1", "0.1", "0.1",20);
+        rungebd.run(g);*/
     }
     public static void t1part2(GChart g) {
         int nodes = 7;
-        MalhaComputacional mcomp = new MalhaComputacional(5.0/(nodes-1),(27)*(0.000001),5.0,0.1,0.0,(9)*(0.000001));
+        MalhaComputacional mcomp = new MalhaComputacional(5.0/(nodes-1),(3.9)*(0.000001),5.0,0.1,0.0,(1.3)*(0.000001));
         double[][] matrix = mcomp.gerar_matriz_A(nodes-2);//Número de nós internos
         double[] vetor_solucao = mcomp.gerar_vetor_b(nodes-2);
         TDM tdm = new TDM(matrix,vetor_solucao);

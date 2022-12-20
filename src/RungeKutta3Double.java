@@ -14,9 +14,7 @@ public class RungeKutta3Double {
         return -alpha * Ca * Cc + Cb;
     }
 
-    private double Cb(double t, double Ca, double Cb, double Cc) {
-        return beta * Ca * Cc - Cb;
-    }
+    private double Cb(double t, double Ca, double Cb, double Cc) { return beta * Ca * Cc - Cb; }
 
     private double Cc(double t, double Ca, double Cb, double Cc) {
         return -gama * Ca * Cc + Cb - 2.0 * Cc;
@@ -64,14 +62,14 @@ public class RungeKutta3Double {
             g.addData(0, t, Ca);
             g.addData(1, t, Cb);
             g.addData(2, t, Cc);
-            if (t <= tmax) {
+            if (t <= tmax-0.000001) {
                 step();
                 if (!(Ca < 0.0) && !(Cb < 0.0) && !(Cc < 0.0)) continue;
 
                 System.out.printf("O sistema desestabilizou para o t = %.6f\n", t);
             }
             finished = true;
-            System.out.printf("(Double) Passo t = %.4f: Ca = %.6f, Cb = %.6f, Cc = %.6f\n", t, Ca, Cb, Cc);
+            System.out.printf("(Double) Passo t = %.4f: Ca = %.10f, Cb = %.10f, Cc = %.10f\n", t, Ca, Cb, Cc);
             return;
         }
     }

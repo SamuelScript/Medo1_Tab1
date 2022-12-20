@@ -99,11 +99,10 @@ public class RungeKutta3BigDecimal {
             if(t.compareTo(tmax) == -1) {
                 step();
                 if(Ca.signum() != -1 && Cb.signum() > -1 && Cc.signum() != -1) continue;
-
                 System.out.printf("O sistema desestabilizou para o t = %.6f\n", t);
             }
             finished = true;
-            System.out.printf("(Big Decimal) Passo t = %.4f: Ca = %.6f, Cb = %.6f, Cc = %.6f\n", t, Ca, Cb, Cc);
+            System.out.printf("(Big Decimal) Passo t = %.4f: Ca = %.10f, Cb = %.10f, Cc = %.10f\n", t, Ca, Cb, Cc);
             return;
         }
     }
